@@ -157,18 +157,12 @@ class AutoAllReDialog(QDialog, Ui_AutoAllReDialog):
 		self.mainWindow.denseReconstruction.res_level = 4
 		self.mainWindow.denseReconstruction.part_archive_type = 1
 
-
-		self.mainWindow.denseReconstruction.basepath = self.mainWindow.sparseReconstruction.output_path
-		self.mainWindow.denseReconstruction.input_path = self.mainWindow.sparseReconstruction.output_path + "/0/"
-		self.mainWindow.denseReconstruction.output_path = "/home/hadoop/scx/Distribute/Scene/Re/"
-
-		self.mainWindow.denseReconstruction.outputdir = self.mainWindow.denseReconstruction.output_path + "/"
-		self.mainWindow.denseReconstruction.pairpath = "/home/hadoop/GUI_master/"
-		self.mainWindow.denseReconstruction.logdirpath = self.mainWindow.denseReconstruction.basepath + "/scx_log/"
-		self.mainWindow.denseReconstruction.allmvsrepath = self.mainWindow.denseReconstruction.basepath + "/scx_Re/"
-		self.mainWindow.denseReconstruction.config = "--min-resolution 320 --resolution-level " + str(self.mainWindow.denseReconstruction.res_level) + " -w " + self.mainWindow.denseReconstruction.basepath + "workPath/"
-		self.mainWindow.denseReconstruction.scenepath = self.mainWindow.denseReconstruction.input_path + "/"
-		self.mainWindow.denseReconstruction.imgpath = self.mainWindow.denseReconstruction.input_path + "/undistorted_images/"
+        # self.mainWindow.sparseReconstruction.output_path: /home/hadoop/data/data/0529
+		self.mainWindow.denseReconstruction.basepath = self.mainWindow.sparseReconstruction.output_path + "/"
+		self.mainWindow.denseReconstruction.scenepath = self.mainWindow.sparseReconstruction.output_path + "/0/scene.mvs"
+		self.mainWindow.denseReconstruction.outputdir = self.mainWindow.denseReconstruction.basepath + "/dense_output"
+		self.mainWindow.denseReconstruction.tmppath = self.mainWindow.denseReconstruction.basepath
+		self.mainWindow.denseReconstruction.imgpath = self.mainWindow.sparseReconstruction.input_path
 
 		#self.mainWindow.denseReconstruction.quality = self.quality_input.currentText()
 		if self.quality_input.currentText() == "low" :
@@ -200,12 +194,11 @@ class AutoAllReDialog(QDialog, Ui_AutoAllReDialog):
 			slave_id = slave_id + 1
 	
 
-		for i in range(0, int(self.mainWindow.denseReconstruction.nParts)):
-			self.mainWindow.denseReconstruction.inputpaths.append(self.mainWindow.denseReconstruction.basepath + "/Densify_temp_" + str(i)+ "/")
-			self.mainWindow.denseReconstruction.colmap_data_paths.append(self.mainWindow.denseReconstruction.basepath + "/Colmap_In_" + str(i) + "/")
-			self.mainWindow.denseReconstruction.workpaths.append(self.mainWindow.denseReconstruction.basepath + "/workPath_" + str(i) + "/")
-			self.mainWindow.denseReconstruction.outputpaths.append(self.mainWindow.denseReconstruction.outputdir + "/Re_"+str(i)+"/")
-			self.mainWindow.denseReconstruction.configs.append("--min-resolution 320 --resolution-level " + str(self.mainWindow.denseReconstruction.res_level) + " -w " + self.mainWindow.denseReconstruction.workpaths[i])
+        for i in range(0, int(self.mainWindow.denseReconstruction.nParts)):
+            self.mainWindow.denseReconstruction.inputpaths.append(self.mainWindow.denseReconstruction.basepath + "/Densify_temp_"+str(i)+"/")
+            self.mainWindow.denseReconstruction.colmap_data_paths.append(self.mainWindow.denseReconstruction.basepath + "/Colmap_In_"+str(i)+"/")
+            self.mainWindow.denseReconstruction.outputpaths.append(self.mainWindow.denseReconstruction.outputdir + "/Re_"+str(i)+"/")
+            
 		self.mainWindow.denseReconstruction.all_process = True
 		#######################################################SCX###################################################
 
